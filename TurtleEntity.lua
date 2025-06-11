@@ -13,6 +13,8 @@ function TurtleEntity:new(o)
     setmetatable(o, self)
     self.__index = self
     self.isRunning = true
+    self.width = 3
+    self.height = 3
     return o
 end
 
@@ -56,6 +58,48 @@ function TurtleEntity:MoveAround()
 
         -- move the turtle
         turtle.forward()
+    end
+end
+
+function TurtleEntity:MoveAroundTest()
+    xPos = 0
+    yPos = 0
+    direction = 1
+
+    while self.isRunning do
+        -- check if the turtle is out of fuel
+        if turtle.getFuelLevel() < 2 then
+            turtle.refuel()
+        end
+
+        if (xPos < self.width) then
+            xPos = xPos + 1
+            turtle.forward()
+            print(xPos)
+        else
+            if (yPos < self.height) then
+                if (direction == 1) then
+                    -- turn the turtle to left
+                    turtle.turnLeft()
+                    -- move forward
+                    turtle.forward()
+                    yPox = yPos + 1
+                    -- turn the turtle to the left again
+                    turtle.turnLeft()
+                elseif (direction == -1) then
+                    -- turn the turtle to left
+                    turtle.turnRight()
+                    -- move forward
+                    turtle.forward()
+                    yPox = yPos + 1
+                    -- turn the turtle to the left again
+                    turtle.turnRight()
+                end
+
+                xPos = 0 -- reset the x position
+                direction = direction * -1
+            end
+        end
     end
 end
 
