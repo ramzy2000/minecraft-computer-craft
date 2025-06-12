@@ -6,16 +6,16 @@ function EntityGlobalPos:new(o, filePath, initPos)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
-    self.filePath = filePath
+    o.filePath = filePath
 
     if filePath == "" then
         return
     end
 
     -- check if file exists
-    if (not fs.exists(self.filePath)) then
+    if (not fs.exists(o.filePath)) then
         -- if not then create one with a base pos of 0, 0, 0
-        file = fs.open(self.filePath, "w")
+        file = fs.open(o.filePath, "w")
         if file then
             file.writeLine(initPos)
             file.close()

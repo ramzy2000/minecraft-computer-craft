@@ -5,9 +5,9 @@ function EntityPosition:new(o, x
     o = o or {}
     setmetatable(o, self)
     self.__index = self
-    self.x = x
-    self.y = y
-    self.z = z
+    o.x = x
+    o.y = y
+    o.z = z
     return o
 end
 

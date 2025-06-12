@@ -1,3 +1,3 @@
 TurtleEntity = require("TurtleEntity")
 turtleEntity = TurtleEntity:new(nil)
-turtleEntity:MoveAround()
+turtleEntity:Testing()

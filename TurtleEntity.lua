@@ -18,9 +18,24 @@ function TurtleEntity:new(o)
     self.isRunning = true
     self.width = 3
     self.height = 3
-    self.currentGlobalPos = EntityGlobalPos:new(nil, "homepos.txt", "0,0,0")
-    self.forwardGlobalVec = EntityGlobalPos:new(nil, "forwardVec.txt", "1,0,0")
+    o.currentGlobalPos = EntityGlobalPos:new(nil, "homepos.txt", "0,0,0")
+    o.forwardGlobalVec = EntityGlobalPos:new(nil, "forwardVec.txt", "1,0,0")
     return o
+end
+
+function TurtleEntity:MoveForward()
+    -- get the current position of the turtleEntity
+    position = self.currentGlobalPos:getPos()
+    forwardVec = self.forwardGlobalVec:getPos()
+
+    -- move the turtle forward once
+    turtle.forward()
+
+    -- update the global position
+    position.x = position.x + forwardVec.x
+    position.y = position.y + forwardVec.y
+
+    self.currentGlobalPos:setPos(position)
 end
 
 function TurtleEntity:TurnLeft()
@@ -39,7 +54,6 @@ function TurtleEntity:TurnLeft()
         forwardVec.y = 0
     end
     turtle.turnLeft()
-    --forwardVec:print()
     self.forwardGlobalVec:setPos(forwardVec)
 end
 
@@ -84,8 +98,8 @@ function TurtleEntity:getLookBlockName()
 end
 
 function TurtleEntity:Testing()
-    self:TurnRight()
-    self.forwardGlobalVec:getPos():print()
+    --self:MoveForward()
+    self:MoveForward()
 end
 
 function TurtleEntity:MoveAround()
