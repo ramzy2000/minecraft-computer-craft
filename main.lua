@@ -1,4 +1,3 @@
-local TurtleEntity = require("TurtleEntity")
-
+TurtleEntity = require("TurtleEntity")
 turtleEntity = TurtleEntity:new(nil)
 turtleEntity:MoveAround()

@@ -1,5 +1,8 @@
 TurtleEntity = { isRunning = true }
 
+EntityPosition = require("EntityPosition")
+EntityGlobalPos = require("EntityGlobalPos")
+
 local blocksToMine = {
     ["minecraft:iron_ore"] = true,
     ["minecraft:gold_ore"] = true,
@@ -15,7 +18,48 @@ function TurtleEntity:new(o)
     self.isRunning = true
     self.width = 3
     self.height = 3
+    self.currentGlobalPos = EntityGlobalPos:new(nil, "homepos.txt", "0,0,0")
+    self.forwardGlobalVec = EntityGlobalPos:new(nil, "forwardVec.txt", "1,0,0")
     return o
+end
+
+function TurtleEntity:TurnLeft()
+    forwardVec = self.forwardGlobalVec:getPos()
+    if forwardVec.x == 1 then
+        forwardVec.x = 0
+        forwardVec.y = 1
+    elseif forwardVec.y == 1 then
+        forwardVec.x = -1
+        forwardVec.y = 0
+    elseif forwardVec.x == -1 then
+        forwardVec.x = 0
+        forwardVec.y = -1
+    elseif forwardVec.y == -1 then
+        forwardVec.x = 1
+        forwardVec.y = 0
+    end
+    turtle.turnLeft()
+    --forwardVec:print()
+    self.forwardGlobalVec:setPos(forwardVec)
+end
+
+function TurtleEntity:TurnRight()
+    forwardVec = self.forwardGlobalVec:getPos()
+    if forwardVec.x == 1 then
+        forwardVec.x = 0
+        forwardVec.y = -1
+    elseif forwardVec.y == 1 then
+        forwardVec.x = 1
+        forwardVec.y = 0
+    elseif forwardVec.x == -1 then
+        forwardVec.x = 0
+        forwardVec.y = 1
+    elseif forwardVec.y == -1 then
+        forwardVec.x = -1
+        forwardVec.y = 0
+    end
+    turtle.turnRight()
+    self.forwardGlobalVec:setPos(forwardVec)
 end
 
 function TurtleEntity:findDirection()
@@ -37,6 +81,11 @@ function TurtleEntity:getLookBlockName()
     else
         return ""
     end
+end
+
+function TurtleEntity:Testing()
+    self:TurnRight()
+    self.forwardGlobalVec:getPos():print()
 end
 
 function TurtleEntity:MoveAround()
