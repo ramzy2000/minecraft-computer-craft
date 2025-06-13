@@ -23,19 +23,69 @@ function TurtleEntity:new(o)
     return o
 end
 
+function TurtleEntity:moveHome()
+    self:moveTo(EntityPosition:new(nil, 0, 0, 0))
+end
+
+function TurtleEntity:moveTo(targetPos)
+    local currentPos = self.currentGlobalPos:getPos()
+    local forwardVec = self.forwardGlobalVec:getPos()
+
+    local dx = targetPos.x - currentPos.x
+    local dy = targetPos.y - currentPos.y
+
+    -- Move along X axis
+    if dx ~= 0 then
+        local desiredXDir = dx > 0 and 1 or -1
+        self:faceDirection(desiredXDir, 0)
+        for i = 1, math.abs(dx) do
+            self:MoveForward()
+        end
+    end
+
+    -- Move along Y axis
+    if dy ~= 0 then
+        local desiredYDir = dy > 0 and 1 or -1
+        self:faceDirection(0, desiredYDir)
+        for i = 1, math.abs(dy) do
+            self:MoveForward()
+        end
+    end
+end
+
+function TurtleEntity:faceDirection(dx, dy)
+    local currentVec = self.forwardGlobalVec:getPos()
+
+    local function vectorsEqual(a, b)
+        return a.x == b.x and a.y == b.y
+    end
+
+    local desiredVec = { x = dx, y = dy }
+
+    -- Try to turn until the forwardVec matches desiredVec
+    for _ = 1, 4 do
+        if vectorsEqual(currentVec, desiredVec) then
+            return
+        end
+        self:TurnRight()
+        currentVec = self.forwardGlobalVec:getPos()
+    end
+end
+
 function TurtleEntity:MoveForward()
     -- get the current position of the turtleEntity
     position = self.currentGlobalPos:getPos()
     forwardVec = self.forwardGlobalVec:getPos()
 
     -- move the turtle forward once
-    turtle.forward()
+    sucess = turtle.forward()
+    if (sucess == true) then
+        -- update the global position
+        position.x = position.x + forwardVec.x
+        position.y = position.y + forwardVec.y
 
-    -- update the global position
-    position.x = position.x + forwardVec.x
-    position.y = position.y + forwardVec.y
-
-    self.currentGlobalPos:setPos(position)
+        self.currentGlobalPos:setPos(position)
+    end
 end
 
 function TurtleEntity:TurnLeft()
@@ -94,75 +144,6 @@ function TurtleEntity:getLookBlockName()
         return data.name
     else
         return ""
-    end
-end
-
-function TurtleEntity:Testing()
-    --self:MoveForward()
-    self:MoveForward()
-end
-
-function TurtleEntity:MoveAround()
-    while self.isRunning do
-        -- check if the turtle is out of fuel
-        if turtle.getFuelLevel() < 2 then
-            turtle.refuel()
-        end
-
-        lookBlockName = self:getLookBlockName()
-        if not lookBlockName == "" then
-            if not blocksToMine[lookBlockName] == nil then
-                turtle.dig()
-            end
-        end
-
-        -- find the direction we want to move
-        self:findDirection()
-
-        -- move the turtle
-        turtle.forward()
-    end
-end
-
-function TurtleEntity:MoveAroundTest()
-    xPos = 0
-    yPos = 0
-    direction = 1
-
-    while self.isRunning do
-        -- check if the turtle is out of fuel
-        if turtle.getFuelLevel() < 2 then
-            turtle.refuel()
-        end
-
-        if (xPos < self.width) then
-            xPos = xPos + 1
-            turtle.forward()
-            print(xPos)
-        else
-            if (yPos < self.height) then
-                if (direction == 1) then
-                    -- turn the turtle to left
-                    turtle.turnLeft()
-                    -- move forward
-                    turtle.forward()
-                    yPox = yPos + 1
-                    -- turn the turtle to the left again
-                    turtle.turnLeft()
-                elseif (direction == -1) then
-                    -- turn the turtle to left
-                    turtle.turnRight()
-                    -- move forward
-                    turtle.forward()
-                    yPox = yPos + 1
-                    -- turn the turtle to the left again
-                    turtle.turnRight()
-                end
-
-                xPos = 0 -- reset the x position
-                direction = direction * -1
-            end
-        end
     end
 end
 

@@ -1,7 +1,6 @@
 EntityPosition = {}
 
-function EntityPosition:new(o, x
-    , y, z)
+function EntityPosition:new(o, x, y, z)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
