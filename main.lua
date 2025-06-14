@@ -6,11 +6,11 @@ while true do
     print("Moving to work position...")
     turtleEntity:moveTo(vector.new(9, 91, 231))
 
-    --sleep(5)
+    sleep(5)
 
-    --print("Returning home...")
-    --turtleEntity:moveHome()
+    print("Returning home...")
+    turtleEntity:moveHome()
 
-    --sleep(5)
+    sleep(5)
     break
 end
