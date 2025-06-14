@@ -1,5 +1,3 @@
-EntityPosition = require("EntityPosition")
-
 EntityGlobalPos = {}
 
 function EntityGlobalPos:new(o, filePath, initPos)
@@ -35,7 +33,7 @@ function EntityGlobalPos:setPos(entityPos)
 end
 
 function EntityGlobalPos:getPos()
-    pos = EntityPosition:new(nil, 0, 0, 0)
+    pos = vector.new(0, 0, 0)
     file = fs.open(self.filePath, "r")
     content = ""
     if file then

@@ -1,15 +1,16 @@
-EntityPosition = require("EntityPosition")
+local TurtleEntity = require("TurtleEntity")
 
-TurtleEntity = require("TurtleEntity")
-turtleEntity = TurtleEntity:new(nil)
-turtleEntity:moveTo(EntityPosition:new(nil, 3, 4, 0))
+local turtleEntity = TurtleEntity:new(nil)
 
-sleep(5)
+while true do
+    print("Moving to work position...")
+    turtleEntity:moveTo(vector.new(9, 91, 231))
 
-turtleEntity:moveHome()
+    --sleep(5)
 
-turtleEntity:moveTo(EntityPosition:new(nil, 3, 4, 0))
+    --print("Returning home...")
+    --turtleEntity:moveHome()
 
-sleep(5)
-
-turtleEntity:moveHome()
+    --sleep(5)
+    break
+end
