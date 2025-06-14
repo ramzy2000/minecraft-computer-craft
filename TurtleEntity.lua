@@ -56,7 +56,7 @@ function TurtleEntity:faceDirection(x, y, z)
     print(desiredDirection)
 
     while not (desiredDirection == self.forwardPos) do
-        --print("made it here")
+        print("made it here")
         if self.forwardPos == directionVectors.east then
             if (desiredDirection == directionVectors.west) then
                 self.forwardPos = directionVectors.west
@@ -138,13 +138,6 @@ function TurtleEntity:moveTo(destination)
         end
     end
 
-    -- move in the z if you have to
-
-    if (desiredDir.z > 0 or desiredDir.z < 0) then
-        -- move forward the amount in distVec.x
-    end
-
-
     -- face the direction of x
     if (desiredDir.x > 0) then
         self:faceDirection(1, 0, 0)
@@ -164,7 +157,23 @@ function TurtleEntity:moveTo(destination)
         end
     end
 
-    -- move in the x if you have to
+    -- move up or down on the y axis
+    if (desiredDir.y > 0) then
+        count = math.abs(distVec.y)
+        index = 0
+        while (index < count) do
+            turtle.up()
+            index = index + 1
+        end
+        -- move turtle in direction math.abs(distVec.z)
+    elseif (desiredDir.y < 0) then
+        count = math.abs(distVec.y)
+        index = 0
+        while (index < count) do
+            turtle.down()
+            index = index + 1
+        end
+    end
 end
 
 function TurtleEntity:moveHome()
